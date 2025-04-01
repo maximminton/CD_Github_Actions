@@ -55,7 +55,7 @@ jobs:
           # Check if there are changes to commit before committing/pushing
           if ! git diff --staged --quiet; then
             git commit -m "CI: Add/Update workflow execution timestamp [skip ci]" 
-            git pull --rebase origin main
+            git pull --rebase origin main || (git checkout --ours workflow_run_timestamp.txt && git add workflow_run_timestamp.txt && git rebase --continue)
             git push # Pushes back to the branch that triggered the workflow
           else
             echo "No changes to commit regarding timestamp."
