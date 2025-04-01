@@ -34,14 +34,17 @@ jobs:
       # Step 5: Fixed Git operations step
       - name: Update timestamp and push
         run: |
+          # Встановлюємо ім'я та email для git
+           git config --global user.name "github-actions[bot]"
+           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    
+    # Оновлюємо timestamp
           echo "Workflow executed at $(date)" > workflow_run_timestamp.txt
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add workflow_run_timestamp.txt
-          if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "CI: Update workflow timestamp [skip ci]"
-            git pull --rebase origin main
-            git push
-          else
-            echo "No changes to commit"
-          fi
+    
+    # Додаємо файл та робимо коміт
+           git add workflow_run_timestamp.txt
+           git commit -m "CI: Update workflow timestamp [skip ci]" || echo "No changes to commit"
+    
+    # Примусово оновлюємо гілку
+           git pull origin main --rebase --autostash || true
+           git push origin main
