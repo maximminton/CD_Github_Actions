@@ -1,4 +1,4 @@
-name: Basic CI Example (Python)
+name: CD_Github_Actions
 
 # Controls when the workflow will run
 on:
