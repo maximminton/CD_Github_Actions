@@ -1,0 +1,64 @@
+name: Basic CI Example (Python)
+
+# Controls when the workflow will run
+on:
+  push: # Trigger on push events to any branch
+    branches:
+      - main # Adjust if your main branch is named differently
+  workflow_dispatch: # Allow manual triggering from the Actions tab
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build-and-test:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest # Select operating system
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Step 1: Clone the project
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Standard action to get your code
+
+      # Step 2: Install the software (Python)
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10' # Choose your Python version
+
+      # Step 3: Download dependencies
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # Add other dependency commands if needed (e.g., pip install pytest)
+
+      # Step 4: Create a project build (if applicable)
+      # Often not a separate step for simple Python scripts. Might be 'python setup.py build' for packages.
+      - name: Build project (placeholder)
+        run: echo "No build step needed for this example, or add your build command here."
+
+      # Step 5: Run unit tests
+      - name: Run unit tests
+        run: |
+          echo "Running tests..."
+          # Replace with your actual test command:
+          # Example: python -m unittest discover
+          # Example: pytest
+          echo "Tests finished (replace with actual command)." # Placeholder
+
+      # Step 6: Update the project code in the repository & Verify
+      # WARNING: This commits back to the repo. Use carefully.
+      - name: Update code and verify execution
+        run: |
+          echo "Workflow executed at $(date)" > workflow_run_timestamp.txt
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add workflow_run_timestamp.txt
+          # Check if there are changes to commit before committing/pushing
+          if ! git diff --staged --quiet; then
+            git commit -m "CI: Add/Update workflow execution timestamp [skip ci]" # Add [skip ci] to prevent loop if necessary
+            git push # Pushes back to the branch that triggered the workflow
+          else
+            echo "No changes to commit regarding timestamp."
+          fi
+        # Verification: After the workflow runs successfully, check your repo for the 'workflow_run_timestamp.txt' file.
