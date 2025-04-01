@@ -4,26 +4,26 @@ name: CD_Github_Actions
 on:
   push: # Trigger on push events to any branch
     branches:
-      - main # Adjust if your main branch is named differently
+      - main 
   workflow_dispatch: # Allow manual triggering from the Actions tab
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build-and-test:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest # Select operating system
+    runs-on: ubuntu-latest 
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Step 1: Clone the project
       - name: Checkout repository
-        uses: actions/checkout@v4 # Standard action to get your code
+        uses: actions/checkout@v4 
 
-      # Step 2: Install the software (Python)
+      # Step 2: Install the software 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # Choose your Python version
+          python-version: '3.10' 
 
       # Step 3: Download dependencies
       - name: Install dependencies
@@ -32,8 +32,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           # Add other dependency commands if needed (e.g., pip install pytest)
 
-      # Step 4: Create a project build (if applicable)
-      # Often not a separate step for simple Python scripts. Might be 'python setup.py build' for packages.
+      # Step 4: Create a project build
       - name: Build project (placeholder)
         run: echo "No build step needed for this example, or add your build command here."
 
@@ -47,7 +46,6 @@ jobs:
           echo "Tests finished (replace with actual command)." # Placeholder
 
       # Step 6: Update the project code in the repository & Verify
-      # WARNING: This commits back to the repo. Use carefully.
       - name: Update code and verify execution
         run: |
           echo "Workflow executed at $(date)" > workflow_run_timestamp.txt
@@ -61,4 +59,3 @@ jobs:
           else
             echo "No changes to commit regarding timestamp."
           fi
-        # Verification: After the workflow runs successfully, check your repo for the 'workflow_run_timestamp.txt' file.
