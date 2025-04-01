@@ -34,11 +34,10 @@ jobs:
       # Step 5: Fixed Git operations step
       - name: Update timestamp and push
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          echo "Workflow executed at $(date)" > workflow_run_timestamp.txt
-          git add workflow_run_timestamp.txt
-          git diff --cached --quiet || git commit -m "CI: Update workflow timestamp [skip ci]"
-          git fetch origin
-          git rebase origin/main
-          git push origin main || git push origin main --force
+         git config --global user.name "github-actions[bot]"
+         git config --global user.email "github-actions[bot]@users.noreply.github.com"
+         echo "Workflow executed at $(date)" > workflow_run_timestamp.txt
+         git pull origin main --strategy-option theirs --no-edit
+         git add workflow_run_timestamp.txt
+         git commit -m "CI: Update timestamp [skip ci]" || echo "No changes to commit"
+         git push origin main
