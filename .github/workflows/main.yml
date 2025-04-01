@@ -30,8 +30,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          # Add other dependency commands if needed (e.g., pip install pytest)
-
+         
       # Step 4: Create a project build
       - name: Build project (placeholder)
         run: echo "No build step needed for this example, or add your build command here."
@@ -40,10 +39,8 @@ jobs:
       - name: Run unit tests
         run: |
           echo "Running tests..."
-          # Replace with your actual test command:
-          # Example: python -m unittest discover
-          # Example: pytest
-          echo "Tests finished (replace with actual command)." # Placeholder
+          python -m unittest discover
+          echo "Tests finished (replace with actual command)." 
 
       # Step 6: Update the project code in the repository & Verify
       - name: Update code and verify execution
