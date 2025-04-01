@@ -39,8 +39,8 @@ jobs:
       - name: Run unit tests
         run: |
           echo "Running tests..."
-          python -m unittest discover
-          echo "Tests finished (replace with actual command)." 
+          pytest
+          echo "Tests finished." 
 
       # Step 6: Update the project code in the repository & Verify
       - name: Update code and verify execution
